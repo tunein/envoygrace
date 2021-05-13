@@ -16,13 +16,6 @@ jobs:
           go-version: 1.16
       - name: Test Go
         run: go test ./... -v
-      - name: Test Goreleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          version: latest
-          args: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Goreleaser dry-run
         uses: goreleaser/goreleaser-action@v2
         with:
