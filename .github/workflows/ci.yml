@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.16
+      - name: Test Go
+        run: go test ./... -v
+      - name: Test Goreleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Goreleaser dry-run
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: --snapshot --skip-publish --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
