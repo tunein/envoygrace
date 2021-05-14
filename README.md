@@ -41,7 +41,7 @@ lifecycle:
   preStop:
     exec:
       command:
-        - "/bin/envoygrace -envoy-url localhost:8001 -eviction-period 5000 -envoy-timeout 1000 -pre-sleep 5000"
+        - "/bin/envoygrace -envoy-url localhost:8001 -eviction-period 5000 -envoy-timeout 500 -pre-sleep 5000"
 ```
 
 **MAKE SURE YOU SET A PRESTOP HOOK ON YOUR ENVOY CONTAINER WITH SLEEP THAT'S LONGER THAN THE ABOVE CONFIG**
@@ -59,4 +59,6 @@ lifecycle:
       amount of milliseconds to sleep after calling envoy graceful commands (default 5000)
   -pre-sleep int
       how long to sleep before sending requests to envoy in milliseconds (default 5000)
+  -hard-fail
+      if this flag is specified and the call to envoy fails, the script will exit with code 1, otherwise code 0
 ```
